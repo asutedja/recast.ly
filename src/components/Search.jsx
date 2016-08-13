@@ -1,16 +1,9 @@
 var Search = (props) => (
   <div className="search-bar form-inline">
-    <form onSubmit={ (e) => 
-      {
-        e.preventDefault();
-        props.searchYouTube(document.getElementById('test').value);
-      }
-    }>
-      <input id='test' className="form-control" type="text" />
+      <input id='test' className="form-control" type="text" onChange={_.debounce(() => props.searchYouTube(document.getElementById('test').value), 500)} />
       <button className="btn hidden-sm-down" type='submit'>
         <span className="glyphicon glyphicon-search"></span>
       </button>
-    </form>
   </div> 
 );
 
