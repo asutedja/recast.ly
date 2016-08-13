@@ -3,14 +3,19 @@ class App extends React.Component {
     super(props);
     this.state = {
       clickedVideo: exampleVideoData[0],
-      videoArray: []
+      videoArray: [],
+
     };
-    var options = {
-      q: 'hackreactor',
-      max: 5,
-      key: YOUTUBE_API_KEY,
-      part: 'snippet'
-    };
+    if(props.searchYouTube){
+      props.searchYouTube(console.log);
+    }
+    this.searchYouTube('charmander');
+    // var options = {
+    //   q: 'hackreactor',
+    //   max: 5,
+    //   key: YOUTUBE_API_KEY,
+    //   part: 'snippet'
+    // };
 
     // window.searchYouTube(options, (data) => {
     //   this.setState({
@@ -20,12 +25,15 @@ class App extends React.Component {
     // });
   }
 
-  searchYouTube() {
+  searchYouTube(text) {
+    //console.log('text', text);
+    var options = {max: 5, key: YOUTUBE_API_KEY, query: text};
     searchYouTube(options, (data) => {
+      //console.log('searching', data, this, options); 
       this.setState({
         clickedVideo: data[0],
         videoArray: data
-      }.bind(this));
+      });
     });
   }
 
@@ -41,7 +49,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Nav />
+        <Nav searchYouTube={this.searchYouTube.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video={currentVideo}/>
         </div>
